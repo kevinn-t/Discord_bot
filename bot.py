@@ -1,48 +1,50 @@
-# import discord
-# from discord.ext import commands
-
-# client = commands.Bot(command_prefix =  ';')
-
-# @client.event
-# async def on_ready():
-#     print("Bot is ready.")
-
 import discord
-import random
-import asyncio
+from discord.ext import commands
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print('Logged in as')
-        print(self.user.name)
-        print(self.user.id)
-        print('------')
+client = commands.Bot(command_prefix =  ';')
+# bot = discord.Client()
 
-    async def on_message(self, message):
-        # we do not want the bot to reply to itself
-        if message.author.id == self.user.id:
-            return
+@client.event
+async def on_ready():
+    print("Bot is ready.")
 
-        if message.content.startswith('$guess'):
-            await message.channel.send('Guess a number between 1 and 10.')
+client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
+# import discord
+# import random
+# import asyncio
 
-            def is_correct(m):
-                return m.author == message.author and m.content.isdigit()
+# class MyClient(discord.Client):
+#     async def on_ready(self):
+#         print('Logged in as')
+#         print(self.user.name)
+#         print(self.user.id)
+#         print('------')
 
-            answer = random.randint(1, 10)
+#     async def on_message(self, message):
+#         # we do not want the bot to reply to itself
+#         if message.author.id == self.user.id:
+#             return
 
-            try:
-                guess = await self.wait_for('message', check=is_correct, timeout=5.0)
-            except asyncio.TimeoutError:
-                return await message.channel.send('Sorry, you took too long it was {}.'.format(answer))
+#         if message.content.startswith('$guess'):
+#             await message.channel.send('Guess a number between 1 and 10.')
 
-            if int(guess.content) == answer:
-                await message.channel.send('You are right!')
-            else:
-                await message.channel.send('Oops. It is actually {}.'.format(answer))
+#             def is_correct(m):
+#                 return m.author == message.author and m.content.isdigit()
 
-client = MyClient()
-client.run("Nzc1NTI5MTA0Njg1OTI0MzUz.X6npww.2uRVAFXRktoM1HrbGN6pZPubmIw")
+#             answer = random.randint(1, 10)
+
+#             try:
+#                 guess = await self.wait_for('message', check=is_correct, timeout=5.0)
+#             except asyncio.TimeoutError:
+#                 return await message.channel.send('Sorry, you took too long it was {}.'.format(answer))
+
+#             if int(guess.content) == answer:
+#                 await message.channel.send('You are right!')
+#             else:
+#                 await message.channel.send('Oops. It is actually {}.'.format(answer))
+
+# client = MyClient()
+
 
 
 
