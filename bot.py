@@ -34,7 +34,7 @@ class MyClient(discord.Client):
             answer = random.randint(1, 10)
 
             try:
-                guess = await self.wait_for('message', check=is_correct, timeout=5.0)
+                guess = await self.wait_for('message', check=is_correct, timeout=7.0)
             except asyncio.TimeoutError:
                 return await message.channel.send('Sorry, you took too long it was {}.'.format(answer))
 
@@ -42,6 +42,18 @@ class MyClient(discord.Client):
                 await message.channel.send('You are right!')
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
+
+        # if message.content.startswith(';rps'):
+        #     await message.channel.send('Rock, Paper, or Scissors?')
+
+        #     def win(m):
+        #         return m.author == message.author and m.contnt.isdigit()
+
+        #     cpu = random.randint(1,3)
+
+        #     try:
+        #         cpu = await self.wait_for('message', check=is_correct, timeout=7.0)
+
 
 client = MyClient()
 client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
