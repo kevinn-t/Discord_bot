@@ -27,7 +27,7 @@ class MyClient(discord.Client):
 
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for the list of games: ;guess, ;rps')
+            await message.channel.send('Here are the commands for currently available games: **;guess**(Guess a number, 1-10)  **;rps**(Rock, paper, scissors!)')
 
 #guessing game
         if message.content.startswith(';guess'):
@@ -49,7 +49,7 @@ class MyClient(discord.Client):
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
 # rock paper scissors
         if message.content.startswith(';rps'):
-            await message.channel.send('Rock, Paper, or Scissors?')
+            await message.channel.send('Rock, paper, scissors, **SHOOT!**')
 
             def checking_string(m):
                 return m.author == message.author and type(m.content) == str
