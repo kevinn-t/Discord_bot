@@ -24,6 +24,11 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
+
+# List of Games:
+        if message.content.startswith(';list'):
+            await message.channel.send('Here are the commands for the list of games: ;guess, ;rps')
+
 #guessing game
         if message.content.startswith(';guess'):
             await message.channel.send('Guess a number between 1 and 10.')
@@ -46,13 +51,13 @@ class MyClient(discord.Client):
         if message.content.startswith(';rps'):
             await message.channel.send('Rock, Paper, or Scissors?')
 
-            def win(m):
-                return m.author == message.author and m.contnt.isdigit()
+            def checking_string(m):
+                return m.author == message.author and type(m.content) == str
 
             cpu = random.randint(1,3)
 
             try:
-                player = await self.wait_for('message', check=win, timeout=5.0)            
+                player = await self.wait_for('message', check=checking_string, timeout=8.0)            
             except asyncio.TimeoutError:
                 return await message.channel.send('Sorry, you took too long')
             #cpu plays rock
