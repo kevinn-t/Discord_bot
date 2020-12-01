@@ -2,6 +2,8 @@ import discord
 import random
 import asyncio
 import time
+points = 0
+await.message.send(points)
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -37,6 +39,7 @@ class MyClient(discord.Client):
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
                 await client.change_presence(status=discord.Status.idle)
@@ -62,6 +65,7 @@ class MyClient(discord.Client):
             elif cpu == 1 and x == 'paper':
                 await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
             elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
@@ -75,10 +79,12 @@ class MyClient(discord.Client):
             elif cpu == 2 and x == 'scissors':
                 await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
             #cpu plays scissors
             if cpu == 3 and x == 'rock':
                 await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
             elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
@@ -86,8 +92,8 @@ class MyClient(discord.Client):
                 await message.channel.send('CPU played **Scissors** and you played **Scissors. TIE**')
                 await client.change_presence(status=discord.Status.idle)
 
-# Game 3: 
-
+        if message.content.startswith(';points'):
+            await channel.message.send(f'Points = 'points)
 
 client = MyClient()
 client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
