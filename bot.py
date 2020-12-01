@@ -26,9 +26,14 @@ class MyClient(discord.Client):
         if message.author.id == self.user.id:
             return
 
+    async def scoreboard():
+        
+
+
+
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for the list of games: ;guess, ;rps')
+            await message.channel.send('Here are the commands for currently available games: **;guess**(Guess a number, 1-10)  **;rps**(Rock, paper, scissors!)')
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
@@ -55,6 +60,7 @@ class MyClient(discord.Client):
         if message.content.startswith(';rps'):
             await message.channel.send('Rock, Paper, or Scissors?')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Rock, Paper, Scissors Game!"))
+            await message.channel.send('Rock, paper, scissors, **SHOOT!**')
 
             def checking_string(m):
                 return m.author == message.author and type(m.content) == str
