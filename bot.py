@@ -12,6 +12,7 @@
 import discord
 import random
 import asyncio
+import time
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -29,9 +30,10 @@ class MyClient(discord.Client):
         if message.content.startswith(';list'):
             await message.channel.send('Here are the commands for the list of games: ;guess, ;rps')
 
-#guessing game
+#Game 1: guessing game
         if message.content.startswith(';guess'):
             await message.channel.send('Guess a number between 1 and 10.')
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game("Guessing Game!"))
 
             def is_correct(m):
                 return m.author == message.author and m.content.isdigit()
@@ -45,11 +47,14 @@ class MyClient(discord.Client):
 
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
+                await client.change_presence(status=discord.Status.idle)
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
-# rock paper scissors
+                await client.change_presence(status=discord.Status.idle)
+# Game 2: rock paper scissors
         if message.content.startswith(';rps'):
             await message.channel.send('Rock, Paper, or Scissors?')
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game("Rock, Paper, Scissors Game!"))
 
             def checking_string(m):
                 return m.author == message.author and type(m.content) == str
@@ -57,30 +62,42 @@ class MyClient(discord.Client):
             cpu = random.randint(1,3)
 
             try:
-                player = await self.wait_for('message', check=checking_string, timeout=8.0)            
+                player = await self.wait_for('message', check=checking_string, timeout=8.0)  
+                x = player.content.lower()
             except asyncio.TimeoutError:
                 return await message.channel.send('Sorry, you took too long')
             #cpu plays rock
-            if cpu == 1 and player.content == 'Rock':
+            if cpu == 1 and x == 'rock':
                 await message.channel.send('CPU played **Rock** and you played **Rock. TIE**')
-            elif cpu == 1 and player.content == 'Paper':
-                await message.channel.send('CPU played **Rock** and you played **Paper. PLAYER WINS**')
-            elif cpu == 1 and player.content == 'Scissors':
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 1 and x == 'paper':
+                await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
+                await client.change_presence(status=discord.Status.idle)
             #cpu plays paper
-            if cpu == 2 and player.content == 'Rock':
+            if cpu == 2 and x == 'rock':
                 await message.channel.send('CPU played **Paper** and you played **Rock. CPU WINS**')
-            elif cpu == 2 and player.content == 'Paper':
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 2 and x == 'paper':
                 await message.channel.send('CPU played **Paper** and you played **Paper. TIE**')
-            elif cpu == 2 and player.content == 'Scissors':
-                await message.channel.send('CPU played **Paper** and you played **Scissors. PLAYER WINS**')
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 2 and x == 'scissors':
+                await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
+                await client.change_presence(status=discord.Status.idle)
             #cpu plays scissors
-            if cpu == 3 and player.content == 'Rock':
-                await message.channel.send('CPU played **Scissors** and you played **Rock. PLAYER WINS**')
-            elif cpu == 3 and player.content == 'Paper':
+            if cpu == 3 and x == 'rock':
+                await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
-            elif cpu == 3 and player.content == 'Scissors':
+                await client.change_presence(status=discord.Status.idle)
+            elif cpu == 3 and x == 'scissors':
                 await message.channel.send('CPU played **Scissors** and you played **Scissors. TIE**')
+                await client.change_presence(status=discord.Status.idle)
+
+# Game 3: 
 
 
 client = MyClient()
