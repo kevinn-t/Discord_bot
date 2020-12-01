@@ -25,12 +25,7 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
-
-    async def scoreboard():
-        
-
-
-
+            
 # List of Games:
         if message.content.startswith(';list'):
             await message.channel.send('Here are the commands for currently available games: **;guess**(Guess a number, 1-10)  **;rps**(Rock, paper, scissors!)')
