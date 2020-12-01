@@ -86,7 +86,6 @@ class MyClient(discord.Client):
                 await message.channel.send('CPU played **Scissors** and you played **Scissors. TIE**')
                 await client.change_presence(status=discord.Status.idle)
 
-# Game 3: 
 
 
 client = MyClient()
