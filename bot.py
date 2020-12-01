@@ -25,7 +25,7 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
-            
+
 # List of Games:
         if message.content.startswith(';list'):
             await message.channel.send('Here are the commands for currently available games: **;guess**(Guess a number, 1-10)  **;rps**(Rock, paper, scissors!)')
@@ -53,7 +53,6 @@ class MyClient(discord.Client):
                 await client.change_presence(status=discord.Status.idle)
 # Game 2: rock paper scissors
         if message.content.startswith(';rps'):
-            await message.channel.send('Rock, Paper, or Scissors?')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Rock, Paper, Scissors Game!"))
             await message.channel.send('Rock, paper, scissors, **SHOOT!**')
 
