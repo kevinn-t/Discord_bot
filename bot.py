@@ -3,7 +3,6 @@ import random
 import asyncio
 import time
 points = 0
-await.message.send(points)
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -93,12 +92,7 @@ class MyClient(discord.Client):
                 await client.change_presence(status=discord.Status.idle)
 
         if message.content.startswith(';points'):
-            await channel.message.send(f'Points = 'points)
+            await message.channel.send(f"Points = {points}")
 
 client = MyClient()
 client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
-
-
-
-
-
