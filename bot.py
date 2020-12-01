@@ -1,14 +1,3 @@
-# import discord
-# from discord.ext import commands
-
-# client = commands.Bot(command_prefix =  ';')
-# # bot = discord.Client()
-
-# @client.event
-# async def on_ready():
-#     print("Bot is ready.")
-
-# client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
 import discord
 import random
 import asyncio
@@ -28,7 +17,7 @@ class MyClient(discord.Client):
             
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for currently available games: **;guess**(Guess a number, 1-10)  **;rps**(Rock, paper, scissors!)')
+            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!)')
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
