@@ -23,7 +23,7 @@ class MyClient(discord.Client):
         if message.content.startswith(';guess'):
             await message.channel.send('Guess a number between 1 and 10.')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Guessing Game!"))
-
+            points = 0
             def is_correct(m):
                 return m.author == message.author and m.content.isdigit()
 
@@ -37,14 +37,16 @@ class MyClient(discord.Client):
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
                 await client.change_presence(status=discord.Status.idle)
+            return points
 # Game 2: rock paper scissors
         if message.content.startswith(';rps'):
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Rock, Paper, Scissors Game!"))
             await message.channel.send('Rock, paper, scissors, **SHOOT!**')
-
+            points = 0
             def checking_string(m):
                 return m.author == message.author and type(m.content) == str
 
@@ -62,6 +64,8 @@ class MyClient(discord.Client):
             elif cpu == 1 and x == 'paper':
                 await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
+                await message.channel.send(f"Points = {points}")
             elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
@@ -75,10 +79,14 @@ class MyClient(discord.Client):
             elif cpu == 2 and x == 'scissors':
                 await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
+                await message.channel.send(f"Points = {points}")
             #cpu plays scissors
             if cpu == 3 and x == 'rock':
                 await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
+                points += 1
+                await message.channel.send(f"Points = {points}")
             elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
@@ -87,11 +95,9 @@ class MyClient(discord.Client):
                 await client.change_presence(status=discord.Status.idle)
 
 
+        elif message.content.startswith(';points'):
+            await message.channel.send(f"Points = {points}")
+            
 
 client = MyClient()
 client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
-
-
-
-
-
