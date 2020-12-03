@@ -133,6 +133,25 @@ class MyClient(discord.Client):
             for i in tally:
                 score += i
             await message.channel.send(f"Points = {score}")
+
+# Game 3: Coinflip
+        if message.content.startswith(';coin'):
+            await message.channel.send('Heads or Tails?')
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game("Coinflip!"))
+
+            def flip(m):
+                return m.author == message.author and type(m.content) == str
+
+            coin == random.randint(1,2)
+
+            try:
+                player = await self.wait_for('message', check=checking_string, timeout=5.0)  
+                x = player.content.lower()
+            except asyncio.TimeoutError:
+                return await message.channel.send('Sorry, you took too long')
+
+            
+
             
 
 client = MyClient()
