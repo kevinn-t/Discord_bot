@@ -2,13 +2,12 @@ import discord
 import random
 import asyncio
 import time
-
-tally = []
-score = 0
+import func
 
 class MyClient(discord.Client):
-    for i in tally:
-        score += i
+    func.score = 0
+    func.tally = []
+    func.count()
     async def on_ready(self):
         print('Logged in as')
         print(self.user.name)
@@ -42,11 +41,11 @@ class MyClient(discord.Client):
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
+                func.apend()
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
                 await client.change_presence(status=discord.Status.idle)
-            return points
+            return func.score
 # Game 2: rock paper scissors
         if message.content.startswith(';rps'):
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Rock, Paper, Scissors Game!"))
@@ -66,73 +65,46 @@ class MyClient(discord.Client):
             if cpu == 1 and x == 'rock':
                 await message.channel.send('CPU played **Rock** and you played **Rock. TIE**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
             elif cpu == 1 and x == 'paper':
                 await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
+                func.count()
+                func.apend()
+                await message.channel.send(f"Points = {func.score}")
             elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
             #cpu plays paper
             if cpu == 2 and x == 'rock':
                 await message.channel.send('CPU played **Paper** and you played **Rock. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
             elif cpu == 2 and x == 'paper':
                 await message.channel.send('CPU played **Paper** and you played **Paper. TIE**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
             elif cpu == 2 and x == 'scissors':
                 await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
+                func.count()
+                func.apend()
+                await message.channel.send(f"Points = {func.score}")
             #cpu plays scissors
             if cpu == 3 and x == 'rock':
                 await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
+                func.count()
+                func.apend()
+                await message.channel.send(f"Points = {func.score}")
             elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
             elif cpu == 3 and x == 'scissors':
                 await message.channel.send('CPU played **Scissors** and you played **Scissors. TIE**')
                 await client.change_presence(status=discord.Status.idle)
-                tally.append(1)
-                for i in tally:
-                    score += i
-                await message.channel.send(f"Points = {score}")
 
+
+# Scoreboard
         if message.content.startswith(';points'):
-            for i in tally:
-                score += i
-            await message.channel.send(f"Points = {score}")
+            await message.channel.send(f"Points = {func.score}")
 
 # Game 3: Coinflip
         if message.content.startswith(';coin'):
@@ -153,6 +125,9 @@ class MyClient(discord.Client):
             if coin == 1 and x == "heads":
                 await message.channel.send('It was **Heads**! Nice guess!')
                 await client.change_presence(status=discord.Status.idle)
+                func.count()
+                func.apend()
+                await message.channel.send(f"Points = {func.score}")
             elif coin == 1 and x == "tails":
                 await message.channel.send('It was **Heads**... Nice try')
                 await client.change_presence(status=discord.Status.idle)
@@ -163,6 +138,9 @@ class MyClient(discord.Client):
             elif coin == 2 and x == "tails":
                 await message.channel.send('It was **Tails**! Nice guess!')
                 await client.change_presence(status=discord.Status.idle)
+                func.count()
+                func.apend()
+                await message.channel.send(f"Points = {func.score}")
 
 
 
