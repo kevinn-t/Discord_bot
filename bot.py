@@ -22,7 +22,7 @@ class MyClient(discord.Client):
 
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!)')
+            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Coinflip)')
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
@@ -142,13 +142,29 @@ class MyClient(discord.Client):
             def flip(m):
                 return m.author == message.author and type(m.content) == str
 
-            coin == random.randint(1,2)
+            coin = random.randint(1,2)
 
             try:
-                player = await self.wait_for('message', check=checking_string, timeout=5.0)  
+                player = await self.wait_for('message', check=flip, timeout=5.0)  
                 x = player.content.lower()
             except asyncio.TimeoutError:
                 return await message.channel.send('Sorry, you took too long')
+
+            if coin == 1 and x == "heads":
+                await message.channel.send('It was **Heads**! Nice guess!')
+                await client.change_presence(status=discord.Status.idle)
+            elif coin == 1 and x == "tails":
+                await message.channel.send('It was **Heads**... Nice try')
+                await client.change_presence(status=discord.Status.idle)
+            
+            if coin == 2 and x == "heads":
+                await message.channel.send('It was **Tails**... Nice try')
+                await client.change_presence(status=discord.Status.idle)
+            elif coin == 2 and x == "tails":
+                await message.channel.send('It was **Tails**! Nice guess!')
+                await client.change_presence(status=discord.Status.idle)
+
+
 
             
 
