@@ -156,6 +156,8 @@ class MyClient(discord.Client):
             punch = random.randint(10,25)
             defend = random.randint(1,10)
             bm = random.randint(1,3)
+            phealth = 100
+            bhealth = 100
             
             try:
                 player = await self.wait_for('message', check=action, timeout=5.0)  
@@ -165,7 +167,13 @@ class MyClient(discord.Client):
             
             # 1 = punch, 2 = defend, 3 = prepare
             if bm == 1:
-                await message.channel.send(f'Bot punched for {punch} damage.')
+                await message.channel.send(f'**Minigames punched** for {punch} damage.')
+                phealth - punch
+            elif bm == 2 and x == 'punch':
+                await message.channel.send(f'**Minigames defends.** Instead of taking {punch} damage, bot now takes {punch - defend}')
+                bhealth - (punch - defend)
+            elif gm == 3:
+                await message.channel.send('**Minigames** decides to **prepare** an attack. Your move.')
 
 
 
