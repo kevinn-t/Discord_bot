@@ -171,14 +171,11 @@ class MyClient(discord.Client):
                     p = player.content.lower()
                     await message.channel.send("Your move!")
                 except asyncio.TimeoutError:
-                    deathmessages = ['Sorry, you took too long and got stabbed...', '**EAT LEAD, BULLY!!**']
-                    await message.channel.send(random.choice(deathmessages))
-                    phealth = 0
-                    bhealth = 0
+                    await message.channel.send('Sorry, you took too long and got stabbed...')
 
                 # Player Moves
                 bm = random.randint(1,3)
-                if p =="punch":
+                if p == "punch":
                     ppunch = random.randint(10,25)
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
                     await message.channel.send(f'Minigame health: {bhealth - ppunch}')
