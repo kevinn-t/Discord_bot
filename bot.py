@@ -143,53 +143,78 @@ class MyClient(discord.Client):
                 # await message.channel.send(f"Points = {func.score}")
 
 # Game 4: Fight bot
-        punch = random.randint(10,25)
-        defend = random.randint(1,10)
-        prepare = random.randint(1,10)
-        bm = random.randint(1,3)
+        # ppunch = random.randint(10,25)
+        # bpunch = random.randint(10,25)
+        # pdefend = random.randint(1,10)
+        # bdefend = random.randint(1,10)
+        # pprepare = random.randint(1,10)
+        # bprepare = random.randint(1,10)
+        # bm = random.randint(1,3)
         phealth = 100
         bhealth = 100
+        pdef = False
+        bdef = False
+        pprep = False
+        bprep = False
         if message.content.startswith(';helpfight'):
-            await message.channel.send('Each person has 100 hitpoints. A **punch** does 10-25 damage. **defend** reduces the next incoming damage by 1-10 damage. **prepare** will add 1-10 damage to your next punch. **run** if you are a loser.')
+            await message.channel.send('Each person has 100 hitpoints. A **punch** does 10-25 damage. **defend** reduces the next incoming damage by 1-10 damage. **prepare** will add 1-10 damage to your next punch. And if you do not want to fight anymore, just wait to get stabbed.')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Noob learning how to fight a bot."))
         if message.content.startswith(';fight'):
-            await message.channel.send('Welcome to the ring! Do you want to **punch**, **prepare** an attack, **defend**, or **run** away? OR type **;helpfight** if you are a noob.')
+            await message.channel.send('Welcome to the ring! Do you want to **punch**, **prepare** an attack, or **defend**? OR type **;helpfight** if you are a noob.')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Fending off a bully..."))
 
             def action(m):
                 return m.author == message.author and type(m.content) == str
             while phealth > 0 or bhealth > 0:
                 try:
-                    player = await self.wait_for('message', check=action, timeout=15.0)  
+                    player = await self.wait_for('message', check=action, timeout=10.0)  
                     p = player.content.lower()
                     await message.channel.send("Your move!")
                 except asyncio.TimeoutError:
-                    return await message.channel.send('Sorry, you took too long and got stabbed...')
+                    deathmessages = ['Sorry, you took too long and got stabbed...', '**EAT LEAD, BULLY!!**']
+                    await message.channel.send(random.choice(deathmessages))
+                    phealth = 0
+                    bhealth = 0
 
                 # Player Moves
+                bm = random.randint(1,3)
                 if p =="punch":
-                    await message.channel.send(f'**You punched** for {punch} damage.')
-                    bhealth - punch
+                    ppunch = random.randint(10,25)
+                    await message.channel.send(f'**You punched** for {ppunch} damage.')
+                    await message.channel.send(f'Minigame health: {bhealth - ppunch}')
+                elif p == 'defend':
+                    await message.channel.send('**You defend.** Next time you get hit, you will take reduced damage.')
+                    pdef = True
                 elif p == "defend" and bm == 1:
-                    await message.channel.send(f'**You defend.** Instead of taking {punch} damage, you now take {punch - defend}.')
-                    phealth - (punch - defend)
+                    pdefend = random.randint(1,10)
+                    await message.channel.send(f'**You defend.** Instead of taking {bpunch} damage, you now take {bpunch - pdefend}.')
+                    await message.channel.send(f'Your health: {phealth - (bpunch - pdefend)}')
                 elif p == "prepare":
-                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {prepare} extra damage!')
-                    # pprep = True
-                elif p == "run":
-                    await message.channel.send("You ran away.")
-                    phealth = 0
+                    pprepare = random.randint(1,10)
+                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
+                    pprep = True
 
                 # 1 = punch, 2 = defend, 3 = prepare
+                bm = random.randint(1,3)
                 if bm == 1:
-                    await message.channel.send(f'**Minigames punched** for {punch} damage.Your move!')
-                    phealth - punch
+                    bpunch = random.randint(10,25)
+                    await message.channel.send(f'**Minigames punched** for {bpunch} damage.Your move!')
+                    await message.channel.send(f'Your health: {phealth - bpunch}')
                 elif bm == 2 and p == 'punch':
-                    await message.channel.send(f'**Minigames defends.** Instead of taking {punch} damage, bot now takes {punch - defend}. Your move!')
-                    bhealth - (punch - defend)
+                    bdefend = random.randint(1,10)
+                    await message.channel.send(f'**Minigames defends.** Instead of taking {ppunch} damage, bot now takes {ppunch - bdefend}. Your move!')
+                    await message.channel.send(f'Minigames Health: {bhealth - (ppunch - bdefend)}')
                 elif bm == 3:
-                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {prepare} extra damage! Your move!')
-                    # bprep = True
+                    bprepare = random.randint(1,10)
+                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
+                    bprep = True
+
+                if bprep == True and bm == 1:
+                    await message.channel.send(f'Minigames was preparing a punch this whole time! It hit you for a total of {bpunch + bprep}')
+
+                if pprep == True and p == 'punch':
+                    await message.channel.send(f'You really think Minigames did not see you preparing an attack this whole time?... You somehow caught it off guard and did a WHOPPING total of {ppunch + pprep}.')
+
 
 
 
