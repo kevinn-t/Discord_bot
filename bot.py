@@ -152,6 +152,7 @@ class MyClient(discord.Client):
         # bm = random.randint(1,3)
         phealth = 100
         bhealth = 100
+        RunGame = True 
         # pdef = False
         # bdef = False
         # pprep = False
@@ -165,7 +166,7 @@ class MyClient(discord.Client):
 
             def action(m):
                 return m.author == message.author and type(m.content) == str
-            while phealth > 0 or bhealth > 0:
+            while RunGame:
                 try:
                     player = await self.wait_for('message', check=action, timeout=10.0)  
                     p = player.content.lower()
@@ -182,28 +183,54 @@ class MyClient(discord.Client):
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
                     bhealth -= ppunch
                     await message.channel.send(f'Minigame health: {bhealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
                     await message.channel.send(f'**Minigames punched** for {bpunch} damage.Your move!')
                     phealth -= bpunch
                     await message.channel.send(f'Your health: {phealth}')
+                    if phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
                 elif p == 'defend' and bm == 1:
                     pdefend = random.randint(1,10)
                     bpunch = random.randint(10,25)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take {pdefend} reduced damage.')
                     await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch - pdefend}. Your move!')
-                    pheath -= (bpunch - pdefend)
+                    phealth -= (bpunch - pdefend)
                     await message.channel.send(f'Your health: {phealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
+                    elif phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
                 elif p == "prepare" and bm == 1:
                     pprepare = random.randint(1,10)
                     bpunch = random.randint(10,25)
                     await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                     await message.channel.send(f'**Minigames punches.** You take {bpunch} damage. Your move!')
-                    await message.channel.send(f'Your health: {phealth - bpunch}')
+                    phealth -= bpunch
+                    await message.channel.send(f'Your health: {phealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
+                    elif phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
                 elif p == "punch" and bm == 2:
                     ppunch = random.randint(10,25)
                     bdefend = random.randint(1,10)
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
                     await message.channel.send(f'**Minigames defends.** Instead of taking {ppunch} damage, bot now takes {ppunch - bdefend}. Your move!')
-                    await message.channel.send(f'Minigame health: {bhealth - (ppunch - bdefend)}')
+                    bhealth -= (ppunch - bdefend)
+                    await message.channel.send(f'Minigame health: {bhealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
+                    elif phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
                 elif p == "defend" and bm == 2:
                     pdefend = random.randint(1,10)
                     bdefend = random.randint(1,10)
@@ -219,7 +246,15 @@ class MyClient(discord.Client):
                     ppunch = random.randint(10,25)
                     bprepare = random.randint(1,10)
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
+                    bhealth -= ppunch
+                    await message.channel.send(f'Minigame health: {bhealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
                     await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
+                    if phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
                 elif p == "defend" and bm == 3:
                     pdefend = random.randint(1,10)
                     bprepare = random.randint(1,10)
