@@ -225,6 +225,7 @@ class MyClient(discord.Client):
                     await message.channel.send(f'**Minigames defends.** Instead of taking {ppunch} damage, bot now takes {ppunch - bdefend}. Your move!')
                     bhealth -= (ppunch - bdefend)
                     await message.channel.send(f'Minigame health: {bhealth}')
+
                     if bhealth < 0:
                         RunGame = False
                         await message.channel.send('**YOU WIN!**')
@@ -236,11 +237,15 @@ class MyClient(discord.Client):
                     bdefend = random.randint(1,10)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take {pdefend} reduced damage.')
                     await message.channel.send(f'**Minigames defends.** It will take {bdefend} reduced damage.')
+                    pdef = True
+                    bdef = True
                 elif p == "prepare" and bm == 2:
                     pprepare = random.randint(1,10)
                     bdefend = random.randint(1,10)
                     await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                     await message.channel.send(f'**Minigames defends.** It will take {bdefend} reduced damage from your next punch. Your move!')
+                    bdef = True
+                    pprep = True
                     
                 elif p == "punch" and bm == 3:
                     ppunch = random.randint(10,25)
@@ -248,6 +253,7 @@ class MyClient(discord.Client):
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
                     bhealth -= ppunch
                     await message.channel.send(f'Minigame health: {bhealth}')
+                    bprep = True
                     if bhealth < 0:
                         RunGame = False
                         await message.channel.send('**YOU WIN!**')
@@ -260,23 +266,85 @@ class MyClient(discord.Client):
                     bprepare = random.randint(1,10)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take {pdefend} reduced damage.')
                     await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
+                    bprep = True
+                    pdef = True
                 elif p == "prepare" and bm == 3:
                     pprepare = random.randint(1,10)
                     bprepare = random.randint(1,10)
                     await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                     await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
+                    pprep = True
+                    bprep = True
 
+                #bot is preped
+                elif p == "punch" and bm == 1 and bprep == True:
+                   ppunch = random.randint(10,25)
+                   bpunch = random.randint(10,25)
+                   bprepare = random.randint(1,10)
+                   await message.channel.send(f'**You punched** for {ppunch} damage.')
+                   bhealth -= ppunch
+                   await message.channel.send(f'Minigame health: {bhealth}')
+                   await message.channel.send(f'**Minigames punched**, landing a critical for {bpunch} + {bprepare} damage.Your move!')
+                   phealth -= (bpunch + bprepare)
+                   await message.channel.send(f'Your health: {phealth}')
+                elif p == 'defend' and bm == 1 and bprep == True:
+                   pdefend = random.randint(1,10)
+                   bpunch = random.randint(10,25)
+                   bprepare = random.randint(1,10)
+                   await message.channel.send(f'**You defend.** Next time you get hit, you will take {pdefend} reduced damage.')
+                   await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch} + {bprepare} - {pdefend}. Your move!')
+                   phealth -= (bpunch + bprepare) - pdefend
+                   await message.channel.send(f'Your health: {phealth}')
+                   pdef = True
+                elif p == "prepare" and bm == 1 and bprep == True:
+                   pprepare = random.randint(1,10)
+                   bpunch = random.randint(10,25)
+                   bprepare = random.randint(1,10)
+                   await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
+                   await message.channel.send(f'**Minigames punches.** You take {bpunch} + {bprepare} damage. Your move!')
+                   phealth -= (bpunch + bprepare)
+                   await message.channel.send(f'Your health: {phealth}')
+                   pprep = True
+                elif p == "punch" and bm == 1 and bprep == True and pprep == True:
+                   ppunch = random.randint(10,25)
+                   bpunch = random.randint(10,25)
+                   bprepare = random.randint(1,10)
+                   pprepare = random.randint(1,10)
+                   await message.channel.send(f'**You punched** for {ppunch + pprepare} damage.')
+                   bhealth -= (pprepare + ppunch)
+                   await message.channel.send(f'Minigame health: {bhealth}')
+                   await message.channel.send(f'**Minigames punched** landed a critical for {bpunch} + {bprepare} damage.Your move!')
+                   phealth -= (bpunch + bprepare)
+                   await message.channel.send(f'Your health: {phealth}')
 
-
-
-
-
-
-
-
-            
-
-            
+                #player is prepped
+                elif p == "punch" and bm == 1 and pprep == True:
+                    ppunch = random.randint(10,25)
+                    bpunch = random.randint(10,25)
+                    pprepare = random.randint(1,10)
+                    await message.channel.send(f'**You punched** for {ppunch} + {pprepare} damage.')
+                    bhealth -= (ppunch + pprepare)
+                    await message.channel.send(f'Minigame health: {bhealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
+                    await message.channel.send(f'**Minigames punched** for {bpunch} damage.Your move!')
+                    phealth -= bpunch
+                    await message.channel.send(f'Your health: {phealth}')
+                    if phealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU LOSE!**')
+                elif p == "punch" and bm == 2 and pprep == True:
+                    ppunch = random.randint(10,25)
+                    bdefend = random.randint(1,10)
+                    pprepare = ranodm.randint(1,10)
+                    await message.channel.send(f'**You punched** for {ppunch} + {pprepare} - {bdefend} damage.')
+                    bhealth -= (pprepare + ppunch) - bdefend
+                    await message.channel.send(f'Minigame health: {bhealth}')
+                    if bhealth < 0:
+                        RunGame = False
+                        await message.channel.send('**YOU WIN!**')
+                elif p == "punch" and bm == 3 and pprep == True:
 
 client = MyClient()
 client.run('Nzc4MDY1OTY4MzkxOTEzNDky.X7MkZg.9bhEvfqmNsp5OzdZixKzXmwtJLo')
