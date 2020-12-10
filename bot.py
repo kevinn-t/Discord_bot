@@ -180,14 +180,18 @@ class MyClient(discord.Client):
                     ppunch = random.randint(10,25)
                     bpunch = random.randint(10,25)
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
-                    await message.channel.send(f'Minigame health: {bhealth - ppunch}')
+                    bhealth -= ppunch
+                    await message.channel.send(f'Minigame health: {bhealth}')
                     await message.channel.send(f'**Minigames punched** for {bpunch} damage.Your move!')
-                    await message.channel.send(f'Your health: {phealth - bpunch}')
+                    phealth -= bpunch
+                    await message.channel.send(f'Your health: {phealth}')
                 elif p == 'defend' and bm == 1:
                     pdefend = random.randint(1,10)
                     bpunch = random.randint(10,25)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take {pdefend} reduced damage.')
                     await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch - pdefend}. Your move!')
+                    pheath -= (bpunch - pdefend)
+                    await message.channel.send(f'Your health: {phealth}')
                 elif p == "prepare" and bm == 1:
                     pprepare = random.randint(1,10)
                     bpunch = random.randint(10,25)
@@ -199,6 +203,7 @@ class MyClient(discord.Client):
                     bdefend = random.randint(1,10)
                     await message.channel.send(f'**You punched** for {ppunch} damage.')
                     await message.channel.send(f'**Minigames defends.** Instead of taking {ppunch} damage, bot now takes {ppunch - bdefend}. Your move!')
+                    await message.channel.send(f'Minigame health: {bhealth - (ppunch - bdefend)}')
                 elif p == "defend" and bm == 2:
                     pdefend = random.randint(1,10)
                     bdefend = random.randint(1,10)
