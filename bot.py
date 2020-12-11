@@ -202,6 +202,7 @@ class MyClient(discord.Client):
                         await message.channel.send('**YOU LOSE!**')
                 elif p == 'defend' and bm == 1:
                     bpunch = random.randint(10,25)
+                    pdefend = random.randint(1,10)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take reduced damage.')
                     await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch - pdefend}. Your move!')
                     phealth -= (bpunch - pdefend)
@@ -392,7 +393,7 @@ class MyClient(discord.Client):
                 elif p == "punch" and bm == 2 and pprep == True:
                     ppunch = random.randint(10,25)
                     bdefend = random.randint(1,10)
-                    pprepare = ranodm.randint(1,10)
+                    pprepare = random.randint(1,10)
                     await message.channel.send(f'**You punched** for {ppunch} + {pprepare} damage.')
                     await message.channel.send(f'**Minigames defends.** Instead of taking {ppunch} + {pprepare} damage, bot now takes {(ppunch + pprepare) - bdefend}. Your move!')
                     bhealth -= (pprepare + ppunch) - bdefend
@@ -407,7 +408,7 @@ class MyClient(discord.Client):
                 elif p == "punch" and bm == 3 and pprep == True:
                     ppunch = random.randint(10,25)
                     pprepare = random.randint(1,10)
-                    bprepare = random.randint(1.10)
+                    bprepare = random.randint(1,10)
                     await message.channel.send(f'**You punched** for {ppunch} + {pprepare} damage.')
                     bhealth -= (pprepare + ppunch)
                     await message.channel.send(f'Minigame health: {bhealth}')
@@ -425,7 +426,7 @@ class MyClient(discord.Client):
                 #bot is defending
                 elif p == 'punch' and bdef == True:
                     ppunch = random.randint(10,25)
-                    bdefend = random.randint(1.10)
+                    bdefend = random.randint(1,10)
                     await message.channel.send(f'**Minigames was defending** this whole time! **Your attack** was supposed to hit for {ppunch} but instead dealt {ppunch} - {bdefend}.')
                     bhealth -= (ppunch - bdefend)
                     if bhealth < 0:
@@ -438,7 +439,7 @@ class MyClient(discord.Client):
                     bdef = False
                 elif p == 'punch' and pprep == True and bdef == True:
                     pprepare = random.randint(1,10)
-                    ppunch = ranodom.randint(10,25)
+                    ppunch = random.randint(10,25)
                     bdefend = random.randint(1,10)
                     await message.channel.send(f'**Minigames was defending** this whole time! **Your attack** was supposed to hit for a critical of {ppunch} + {pprepare} but instead dealt {ppunch + pprepare} - {bdefend}.')
                     bhealth -= (ppunch + pprepare) - bdefend
@@ -455,7 +456,7 @@ class MyClient(discord.Client):
                 #player is defending
                 elif bm == 1 and pdef == True:
                     bpunch = random.randint(10,25)
-                    pdefend = random.randint(1.10)
+                    pdefend = random.randint(1,10)
                     await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch} - {pdefend}. Your move!')
                     phealth -= (bpunch - pdefend)
                     if phealth < 0:
@@ -468,7 +469,7 @@ class MyClient(discord.Client):
                     pdef = False
                 elif bm == 1 and bprep == True and pdef == True:
                     bprepare = random.randint(1,10)
-                    bpunch = ranodom.randint(10,25)
+                    bpunch = random.randint(10,25)
                     pdefend = random.randint(1,10)
                     await message.channel.send(f'**Minigames punches.** Instead of taking {bpunch} damage, you now take {bpunch} + {bprepare} - {pdefend}. Your move!')
                     phealth -= (bpunch + bprepare) - pdefend
