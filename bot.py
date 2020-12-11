@@ -158,7 +158,7 @@ class MyClient(discord.Client):
         # pprep = False
         # bprep = False
         if message.content.startswith(';helpfight'):
-            await message.channel.send('Each person has 100 hitpoints. A **punch** does 10-25 damage. **defend** reduces the next incoming damage by 1-10 damage. **prepare** will add 1-10 damage to your next punch. And if you do not want to fight anymore, just wait to get stabbed.')
+            await message.channel.send('Each person has 100 hitpoints. A **punch** does 10-25 damage. **defend** reduces the next incoming damage by 1-10 damage. **prepare** will add 1-10 damage to your next punch but does not stack. And if you do not want to fight anymore, just wait to get stabbed.')
             await client.change_presence(status=discord.Status.idle, activity=discord.Game("Noob learning how to fight a bot."))
         if message.content.startswith(';fight'):
             await message.channel.send('Welcome to the ring! Do you want to **punch**, **prepare** an attack, or **defend**? OR type **;helpfight** if you are a noob.')
@@ -216,7 +216,8 @@ class MyClient(discord.Client):
                         await message.channel.send('**YOU LOSE!**')
                 elif p == "prepare" and bm == 1:
                     bpunch = random.randint(10,25)
-                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do extra damage!')
+                    pprepare = random.randint(1,10)
+                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                     await message.channel.send(f'**Minigames punches.** You take {bpunch} damage. Your move!')
                     phealth -= bpunch
                     await message.channel.send(f'Your health: {phealth}')
@@ -248,7 +249,7 @@ class MyClient(discord.Client):
                     bdef = True
                     pdef = True
                 elif p == "prepare" and bm == 2:
-                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do extra damage!')
+                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                     await message.channel.send(f'**Minigames defends.** It will take reduced damage from your next punch. Your move!')
                     pprep = True
                     bdef = True
@@ -267,19 +268,19 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
-                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do extra damage! Your move!')
+                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
                 elif p == "defend" and bm == 3:
                     pdefend = random.randint(1,10)
                     bprepare = random.randint(1,10)
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take reduced damage.')
-                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do extra damage! Your move!')
+                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
                     bprep = True
                     pdef = True
                 elif p == "prepare" and bm == 3:
                     pprepare = random.randint(1,10)
                     bprepare = random.randint(1,10)
-                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do extra damage!')
-                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do extra damage! Your move!')
+                    await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
+                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
                     pprep = True
                     bprep = True
 
@@ -327,7 +328,7 @@ class MyClient(discord.Client):
                    pprepare = random.randint(1,10)
                    bpunch = random.randint(10,25)
                    bprepare = random.randint(1,10)
-                   await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do extra damage!')
+                   await message.channel.send(f'**You** decide to **prepare** an attack. Your next punch will do {pprepare} extra damage!')
                    await message.channel.send(f'**Minigames punches.** You take {bpunch} + {bprepare} damage. Your move!')
                    phealth -= (bpunch + bprepare)
                    await message.channel.send(f'Your health: {phealth}')
@@ -412,7 +413,7 @@ class MyClient(discord.Client):
                     await message.channel.send(f'**You punched** for {ppunch} + {pprepare} damage.')
                     bhealth -= (pprepare + ppunch)
                     await message.channel.send(f'Minigame health: {bhealth}')
-                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do extra damage! Your move!')
+                    await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
                     pprep = False
                     bprep = True
                     if bhealth < 0:
@@ -452,7 +453,6 @@ class MyClient(discord.Client):
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
                     bdef = False
-
                 #player is defending
                 elif bm == 1 and pdef == True:
                     bpunch = random.randint(10,25)
