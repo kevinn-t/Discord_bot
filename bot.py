@@ -21,7 +21,7 @@ class MyClient(discord.Client):
 
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Coinflip) **;fight** (Fight against a bot)')
+            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Coinflip) **;fight** (Fight against a bot). If you are feeling sad, type ;sad...we hope these will cheer you up! ;(')
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
