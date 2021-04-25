@@ -2,7 +2,7 @@ import discord
 import random
 import asyncio
 import time
-import func
+import json
 
 class MyClient(discord.Client):
     # func.score = 0
@@ -24,6 +24,11 @@ class MyClient(discord.Client):
             await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Coinflip) **;fight** (Fight against a bot). ')
             await message.channel.send('If you are feeling sad, type ;sad...we hope these will cheer you up! ;(')
 
+# Scoreboard...?
+        with open("dbot.txt", "r") as scores:
+            if message.content.startswith(';score'):
+                await message.channel.send(scores.readlines(1))
+
 #Game 1: guessing game
         if message.content.startswith(';guess'):
             await message.channel.send('Guess a number between 1 and 10.')
@@ -42,11 +47,19 @@ class MyClient(discord.Client):
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
                 await client.change_presence(status=discord.Status.idle)
-                # func.apend()
+
+
+                with open("dbot.txt", "r") as scores:
+                    previousScore = scores.read()
+                    updatedScore = previousScore + 1
+                with open("dbot.txt", "w") as scores:
+                    scores.write(updatedScore)
+
+
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
                 await client.change_presence(status=discord.Status.online)
-            # return func.score
+
 # Game 2: rock paper scissors
         if message.content.startswith(';rps'):
             await client.change_presence(status=discord.Status.online, activity=discord.Game("Rock, Paper, Scissors Game!"))
@@ -69,9 +82,6 @@ class MyClient(discord.Client):
             elif cpu == 1 and x == 'paper':
                 await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
-                # func.count()
-                # func.apend()
-                # await message.channel.send(f"Points = {func.score}")
             elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
                 await client.change_presence(status=discord.Status.online)
@@ -85,16 +95,9 @@ class MyClient(discord.Client):
             elif cpu == 2 and x == 'scissors':
                 await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
-                # func.count()
-                # func.apend()
-                # await message.channel.send(f"Points = {func.score}")
-            #cpu plays scissors
             if cpu == 3 and x == 'rock':
                 await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
-                # func.count()
-                # func.apend()
-                # await message.channel.send(f"Points = {func.score}")
             elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
                 await client.change_presence(status=discord.Status.online)
