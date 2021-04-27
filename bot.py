@@ -21,13 +21,16 @@ class MyClient(discord.Client):
 
 # List of Games:
         if message.content.startswith(';list'):
-            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Coinflip) **;fight** (Fight against a bot). ')
+            await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Flips a Coin) **;fight** (Fight against a bot). ')
             await message.channel.send('If you are feeling sad, type ;sad...we hope these will cheer you up! ;(')
 
 # Scoreboard...?
+        linesTotal = 0
         with open("dbot.txt", "r") as scores:
-            if message.content.startswith(';score'):
-                await message.channel.send(scores.readlines(1))
+            for lines in scores.read():
+                linesTotal + 1
+        if message.content.startswith(';scoreboard'):
+            await message.channel.send(f"Total Wins: {linesTotal}")
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
@@ -47,15 +50,8 @@ class MyClient(discord.Client):
             if int(guess.content) == answer:
                 await message.channel.send('You are right!')
                 await client.change_presence(status=discord.Status.idle)
-
-
-                with open("dbot.txt", "r") as scores:
-                    previousScore = scores.read()
-                    updatedScore = previousScore + 1
-                with open("dbot.txt", "w") as scores:
-                    scores.write(updatedScore)
-
-
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
             else:
                 await message.channel.send('Oops. It is actually {}.'.format(answer))
                 await client.change_presence(status=discord.Status.online)
@@ -82,6 +78,8 @@ class MyClient(discord.Client):
             elif cpu == 1 and x == 'paper':
                 await message.channel.send('CPU played **Rock** and you played **Paper. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
             elif cpu == 1 and x == 'scissors':
                 await message.channel.send('CPU played **Rock** and you played **Scissors. CPU WINS**')
                 await client.change_presence(status=discord.Status.online)
@@ -95,9 +93,13 @@ class MyClient(discord.Client):
             elif cpu == 2 and x == 'scissors':
                 await message.channel.send('CPU played **Paper** and you played **Scissors. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
             if cpu == 3 and x == 'rock':
                 await message.channel.send('CPU played **Scissors** and you played **Rock. YOU WIN**')
                 await client.change_presence(status=discord.Status.online)
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
             elif cpu == 3 and x == 'paper':
                 await message.channel.send('CPU played **Scissors** and you played **Paper. CPU WINS**')
                 await client.change_presence(status=discord.Status.online)
@@ -129,9 +131,8 @@ class MyClient(discord.Client):
             if coin == 1 and x == "heads":
                 await message.channel.send('It was **Heads**! Nice guess!')
                 await client.change_presence(status=discord.Status.online)
-                # func.count()
-                # func.apend()
-                # await message.channel.send(f"Points = {func.score}")
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
             elif coin == 1 and x == "tails":
                 await message.channel.send('It was **Heads**... Nice try')
                 await client.change_presence(status=discord.Status.online)
@@ -142,9 +143,8 @@ class MyClient(discord.Client):
             elif coin == 2 and x == "tails":
                 await message.channel.send('It was **Tails**! Nice guess!')
                 await client.change_presence(status=discord.Status.online)
-                # func.count()
-                # func.apend()
-                # await message.channel.send(f"Points = {func.score}")
+                with open("dbot.txt", "a") as scores:
+                    scores.write("tally\n")
 
 # Game 4: Fight bot
         # ppunch = random.randint(10,25)
@@ -197,6 +197,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     if phealth < 0:
                         RunGame = False
                         pprep = False
@@ -247,6 +249,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                 elif p == "defend" and bm == 2:
                     await message.channel.send(f'**You defend.** Next time you get hit, you will take reduced damage.')
                     await message.channel.send(f'**Minigames defends.** It will take reduced damage.')
@@ -272,6 +276,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     await message.channel.send(f'**Minigames** decides to **prepare** an attack. His next punch will do {bprepare} extra damage! Your move!')
                 elif p == "defend" and bm == 3:
                     pdefend = random.randint(1,10)
@@ -306,6 +312,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     if phealth < 0:
                         RunGame = False
                         pprep = False
@@ -362,6 +370,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     if phealth < 0:
                         RunGame = False
                         pprep = False
@@ -388,6 +398,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     if phealth < 0:
                         RunGame = False
                         pprep = False
@@ -410,6 +422,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                 elif p == "punch" and bm == 3 and pprep == True:
                     ppunch = random.randint(10,25)
                     pprepare = random.randint(1,10)
@@ -427,6 +441,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                 
                 #bot is defending
                 elif p == 'punch' and bdef == True:
@@ -441,6 +457,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     bdef = False
                 elif p == 'punch' and pprep == True and bdef == True:
                     pprepare = random.randint(1,10)
@@ -456,6 +474,8 @@ class MyClient(discord.Client):
                         bdef = False
                         pdef = False
                         await message.channel.send('**YOU WIN!**')
+                        with open("dbot.txt", "a") as scores:
+                            scores.write("tally\n")
                     bdef = False
                 #player is defending
                 elif bm == 1 and pdef == True:
