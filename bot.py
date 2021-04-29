@@ -5,9 +5,6 @@ import time
 import json
 
 class MyClient(discord.Client):
-    # func.score = 0
-    # func.tally = []
-    # func.count()
     async def on_ready(self):
         print('Logged in as')
         print(self.user.name)
@@ -22,15 +19,15 @@ class MyClient(discord.Client):
 # List of Games:
         if message.content.startswith(';list'):
             await message.channel.send('Here are the commands for currently available games: **;guess** (Guess a number, 1-10)  **;rps** (Rock, paper, scissors!) **;coin** (Flips a Coin) **;fight** (Fight against a bot). ')
-            await message.channel.send('If you are feeling sad, type ;sad...we hope these will cheer you up! ;(')
+            await message.channel.send("And if you're curious how many times you've won a game against the bot, type ;scoreboard. If you're feeling sad, type ;sad...we hope these will cheer you up! ;(")
 
 # Scoreboard...?
         linesTotal = 0
         with open("dbot.txt", "r") as scores:
             for lines in scores.read():
-                linesTotal + 1
-        if message.content.startswith(';scoreboard'):
-            await message.channel.send(f"Total Wins: {linesTotal}")
+                linesTotal += 1
+            if message.content.startswith(';scoreboard'):
+                await message.channel.send(f"Total Wins: {linesTotal}")
 
 #Game 1: guessing game
         if message.content.startswith(';guess'):
@@ -43,7 +40,7 @@ class MyClient(discord.Client):
             answer = random.randint(1, 10)
 
             try:
-                guess = await self.wait_for('message', check=is_correct, timeout=5.0)
+                guess = await self.wait_for('message', check=is_correct, timeout=8.0)
             except asyncio.TimeoutError:
                 return await message.channel.send('Sorry, you took too long it was {}.'.format(answer))
 
@@ -106,11 +103,6 @@ class MyClient(discord.Client):
             elif cpu == 3 and x == 'scissors':
                 await message.channel.send('CPU played **Scissors** and you played **Scissors. TIE**')
                 await client.change_presence(status=discord.Status.online)
-
-
-# Scoreboard :(
-        # if message.content.startswith(';points'):
-        #     await message.channel.send(f"Points = {func.score}")
 
 # Game 3: Coinflip
         if message.content.startswith(';coin'):
