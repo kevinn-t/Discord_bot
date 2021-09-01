@@ -4,6 +4,7 @@ import asyncio
 import json
 import os
 from replit import db
+from run import keep_alive
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -507,6 +508,6 @@ class MyClient(discord.Client):
 
 
 
-
+keep_alive()
 client = MyClient()
 client.run('ODc4NDY3OTE3Nzg2Nzk2MTIy.YSBnAA.iFJ8GKE7muUOsFRpTTd8Bdm5G74')
