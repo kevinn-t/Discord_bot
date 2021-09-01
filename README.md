@@ -9,4 +9,4 @@
 ### 5) In your server that you have created, type ';help' (without the quotations) to get started.
 ### ;list is the command that lists out the games we have available!
 
-##The bot now runs on it's own!
+## The bot now runs on it's own!
