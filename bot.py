@@ -510,4 +510,4 @@ class MyClient(discord.Client):
 
 keep_alive()
 client = MyClient()
-client.run('ODc4NDY3OTE3Nzg2Nzk2MTIy.YSBnAA.iFJ8GKE7muUOsFRpTTd8Bdm5G74')
+client.run('')
